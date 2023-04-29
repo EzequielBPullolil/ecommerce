@@ -4,4 +4,4 @@ from django.shortcuts import render
 
 
 def create(request):
-    return ''
+    return render(request, 'product_create.html')
