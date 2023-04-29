@@ -11,10 +11,17 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+PRODUCT_DIR = os.path.join(BASE_DIR, 'products')
+PRODUCT_TEMPLATES = os.path.join(PRODUCT_DIR, 'templates')
+
+USER_DIR = os.path.join(BASE_DIR, 'users')
+USER_TEMPLATES = os.path.join(USER_DIR, 'templates')
+
+print(BASE_DIR)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -51,10 +58,14 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'ecommerce.urls'
 
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            USER_TEMPLATES,
+            PRODUCT_TEMPLATES
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
