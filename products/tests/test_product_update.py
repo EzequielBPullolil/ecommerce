@@ -42,9 +42,20 @@ class ProductUpdateTestCase(TestCase):
         response = self.client.post(url, data=self.data)
 
         self.assertEqual(response.status_code, 302)
+        updated_product = Products.objects.get(id=self.productSuject.id)
+        self.assertEqual(updated_product.name, self.data['name'])
+
+    def test_succefully_request_update_product_redirect_to_product_detail(self):
+        '''
+            Check if the correctr request to update_product redirect to product_detail
+            template
+        '''
+        name = 'a test new name'
+        url = reverse('product_update', args=[self.productSuject.id])
+        response = self.client.post(url, data={
+            'name': name
+        })
+
+        self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse(
             'product_detail', args=[self.productSuject.id]))
-
-        updated_product = Products.objects.get(id=self.productSuject.id)
-
-        self.assertEqual(updated_product.name, self.data['name'])
