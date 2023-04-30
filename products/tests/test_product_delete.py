@@ -27,3 +27,9 @@ class ProductDeleteTestCase(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'product_delete.html')
+
+    def test_not_found_product_render_template_product_not_found(self):
+        url = reverse('product_delete', args=[909])
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'product_not_found.html')
