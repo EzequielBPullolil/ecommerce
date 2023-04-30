@@ -33,3 +33,16 @@ class ProductDeleteTestCase(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'product_not_found.html')
+
+    def test_succefully_request_delete_product_from_db(self):
+        '''
+          Verify if succefully request of delete_product user case
+          remove product from db
+        '''
+        url = reverse('product_delete', args=[self.productSuject.id])
+        response = self.client.post(url)
+
+        self.assertEqual(response.status_code, 200)
+        productDeleted = Products.objects.filter(
+            id=self.productSuject.id).exists()
+        self.assertFalse(productDeleted)
