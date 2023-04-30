@@ -75,6 +75,7 @@ class ProductDeleteView(DeleteView):
     template_name = 'product_delete.html'
     template_name_not_found = 'product_not_found.html'
     pk_url_kwarg = 'id'
+    success_url = reverse_lazy('product_home')
 
     @handle_not_found
     def get(self, request, *args, **kwargs):
