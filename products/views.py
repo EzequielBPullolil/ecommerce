@@ -9,6 +9,8 @@ from .forms import ProductForm
 from django.urls import reverse_lazy
 # Create your views here.
 
+from products.decorators import handle_not_found
+
 
 class ProductCreateView(CreateView):
     model = Products
@@ -35,15 +37,13 @@ class ProductDetailView(DetailView):
     pk_url_kwarg = 'id'
     template_name_not_found = 'product_not_found.html'
 
+    @handle_not_found
     def get(self, request, *args, **kwargs):
         '''
-            Render product_detail template if the product
+            Render product_update template if the product
             exist, if not render template_name_not_found
         '''
-        try:
-            return super().get(request, *args, *kwargs)
-        except Http404:
-            return render(request, self.template_name_not_found)
+        return super().get(self, request, *args, **kwargs)
 
 
 class ProductUpdateView(UpdateView):
@@ -61,15 +61,13 @@ class ProductUpdateView(UpdateView):
         self.object = form.save()
         return redirect(reverse_lazy('product_detail', args=[self.object.id]))
 
+    @handle_not_found
     def get(self, request, *args, **kwargs):
         '''
             Render product_update template if the product
             exist, if not render template_name_not_found
         '''
-        try:
-            return super().get(request, *args, *kwargs)
-        except Http404:
-            return render(request, self.template_name_not_found)
+        return super().get(self, request, *args, **kwargs)
 
 
 class ProductDeleteView(DeleteView):
@@ -78,3 +76,11 @@ class ProductDeleteView(DeleteView):
     template_name = 'product_delete.html'
     template_name_not_found = 'product_not_found.html'
     pk_url_kwarg = 'id'
+
+    @handle_not_found
+    def get(self, request, *args, **kwargs):
+        '''
+            Render product_update template if the product
+            exist, if not render template_name_not_found
+        '''
+        return super().get(self, request, *args, **kwargs)
