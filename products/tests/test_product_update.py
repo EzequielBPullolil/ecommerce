@@ -28,7 +28,23 @@ class ProductUpdateTestCase(TestCase):
         self.assertTemplateUsed(response, 'product_update.html')
 
     def test_not_found_product_render_template_product_not_found(self):
-        url = reverse('product_update', args=[2002020320])
-        response = self.client.get(url, data=self.data)
+        url = reverse('product_update', args=[909])
+        response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'product_not_found.html')
+
+    def test_product_updated_succefully_update_product_in_db(self):
+        '''
+            Verify if product[productSuject] is updated when
+            request product_update route with POST method
+        '''
+        url = reverse('product_update', args=[self.productSuject.id])
+        response = self.client.post(url, data=self.data)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse(
+            'product_detail', args=[self.productSuject.id]))
+
+        updated_product = Products.objects.get(id=self.productSuject.id)
+
+        self.assertEqual(updated_product.name, self.data['name'])
