@@ -3,7 +3,7 @@ from django.db import models
 from django.forms.models import BaseModelForm
 from django.shortcuts import redirect, render
 from products.models import Products
-from django.http import HttpResponse
+from django.http import Http404, HttpResponse
 from django.views.generic.edit import CreateView
 from django.views.generic.detail import DetailView
 from .forms import ProductForm
@@ -34,3 +34,14 @@ class ProductDetailView(DetailView):
     template_name = 'product_detail.html'
     context_object_name = 'product'
     pk_url_kwarg = 'id'
+    template_name_not_found = 'product_not_found.html'
+
+    def get(self, request, *args, **kwargs):
+        '''
+            Render product_detail template if the product
+            exist, if not render template_name_not_found
+        '''
+        try:
+            return super().get(request, *args, *kwargs)
+        except Http404:
+            return render(request, self.template_name_not_found)
