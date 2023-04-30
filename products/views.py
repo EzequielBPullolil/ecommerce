@@ -1,10 +1,9 @@
 from typing import Any, Dict, Optional
-from django.db import models
 from django.forms.models import BaseModelForm
 from django.shortcuts import redirect, render
 from products.models import Products
 from django.http import Http404, HttpResponse
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.detail import DetailView
 from .forms import ProductForm
 from django.urls import reverse_lazy
@@ -71,3 +70,12 @@ class ProductUpdateView(UpdateView):
             return super().get(request, *args, *kwargs)
         except Http404:
             return render(request, self.template_name_not_found)
+
+
+class ProductDeleteView(DeleteView):
+    model = Products
+    form_class = ProductForm
+    template_name = 'product_.html'
+    template_name_not_found = 'product_not_found.html'
+    pk_url_kwarg = 'id'
+    
