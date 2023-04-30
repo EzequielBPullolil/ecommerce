@@ -23,7 +23,7 @@ class ProductUpdateTestCase(TestCase):
 
     def test_product_update_route_render_product_update_template(self):
         url = reverse('product_update', args=[self.productSuject.id])
-        response = self.client.get(url, data=self.data)
+        response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'product_update.html')
 
