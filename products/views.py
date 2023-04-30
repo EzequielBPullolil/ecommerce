@@ -4,7 +4,7 @@ from django.forms.models import BaseModelForm
 from django.shortcuts import redirect, render
 from products.models import Products
 from django.http import Http404, HttpResponse
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.detail import DetailView
 from .forms import ProductForm
 from django.urls import reverse_lazy
@@ -45,3 +45,21 @@ class ProductDetailView(DetailView):
             return super().get(request, *args, *kwargs)
         except Http404:
             return render(request, self.template_name_not_found)
+
+
+class ProductUpdateView(UpdateView):
+    model = Products
+    form_class = ProductForm
+    template_name = 'product_update.html'
+
+    def get_object(self):
+        id = self.kwargs.get('id')
+        return Products.objects.get(id=id)
+
+    def get_success_url(self):
+        return reverse_lazy('product_detail', args=[self.object.id])
+
+    def form_valid(self, form: BaseModelForm) -> HttpResponse:
+        response = super().form_valid(form)
+        self.object = form.save()
+        return redirect(reverse_lazy('product_detail', args=[self.object.id]))
