@@ -38,7 +38,7 @@ class ProductDetailTestCase(TestCase):
             url
         )
 
-        self.assertEqual(response.status_code, 204)
+        self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'product_not_found.html')
 
         self.assertContains(response, 'The product is no longer available')
