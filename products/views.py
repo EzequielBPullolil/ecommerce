@@ -51,10 +51,8 @@ class ProductUpdateView(UpdateView):
     model = Products
     form_class = ProductForm
     template_name = 'product_update.html'
-
-    def get_object(self):
-        id = self.kwargs.get('id')
-        return Products.objects.get(id=id)
+    template_name_not_found = 'product_not_found.html'
+    pk_url_kwarg = 'id'
 
     def get_success_url(self):
         return reverse_lazy('product_detail', args=[self.object.id])
@@ -63,3 +61,13 @@ class ProductUpdateView(UpdateView):
         response = super().form_valid(form)
         self.object = form.save()
         return redirect(reverse_lazy('product_detail', args=[self.object.id]))
+
+    def get(self, request, *args, **kwargs):
+        '''
+            Render product_update template if the product
+            exist, if not render template_name_not_found
+        '''
+        try:
+            return super().get(request, *args, *kwargs)
+        except Http404:
+            return render(request, self.template_name_not_found)
