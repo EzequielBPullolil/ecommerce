@@ -46,3 +46,11 @@ class ProductDeleteTestCase(TestCase):
         productDeleted = Products.objects.filter(
             id=self.productSuject.id).exists()
         self.assertFalse(productDeleted)
+
+    def test_delete_product_redirect_to_product_home_route(self):
+        url = reverse('product_delete', args=[self.productSuject.id])
+        response = self.client.post(url)
+        self.assertEqual(response.status_code, 200)
+
+        self.assertRedirects(response, reverse(
+            'product_home', args=[self.productSuject.id]))
