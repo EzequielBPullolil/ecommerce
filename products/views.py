@@ -72,7 +72,6 @@ class ProductUpdateView(UpdateView):
 
 class ProductDeleteView(DeleteView):
     model = Products
-    form_class = ProductForm
     template_name = 'product_delete.html'
     template_name_not_found = 'product_not_found.html'
     pk_url_kwarg = 'id'
