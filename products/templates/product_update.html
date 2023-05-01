@@ -3,6 +3,7 @@
 <form method="POST">
   {% csrf_token %}
   {{ form.as_p }}
+  <a href="{% url 'product_detail' object.id %}"> Cancel </a>
   <input type="submit" value="Update">
 </form>
 {% endblock %}
