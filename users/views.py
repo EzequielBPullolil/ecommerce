@@ -19,13 +19,11 @@ class UserRegisterView(CreateView):
               render user_error.html template
         '''
         form = self.get_form()
-        if (not form.is_valid()):
-            return self.form_invalid(form)
-        
-        persisted_user = persist_user(
-            name=request.POST['name'],
-            email=request.POST['email'],
-            password=request.POST['password']
-        )
+        if (form.is_valid()):
+            persisted_user = persist_user(
+                name=request.POST['name'],
+                email=request.POST['email'],
+                password=request.POST['password']
+            )
 
         return render(request, 'user_error.html')
