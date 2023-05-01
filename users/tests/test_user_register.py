@@ -1,6 +1,8 @@
 from django.test import TestCase
 from django.urls import reverse
 
+from users.models import Users
+
 
 class UserRegisterTestCase(TestCase):
     '''
@@ -14,6 +16,15 @@ class UserRegisterTestCase(TestCase):
 
     def setUp(self) -> None:
         self.url = reverse('user_register')
+        self.registeredUser = Users(
+            None, 'ezequiel', 'ezequiel', 'ezequiel@test.com')
+        self.registeredUser.save()
+
+        self.data = {
+            'name': 'user_test_name',
+            'password': 'a password',
+            'email': 'test@email.com'
+        }
 
     def test_request_user_register_with_post_return_user_register_template(self):
         response = self.client.get(self.url)
