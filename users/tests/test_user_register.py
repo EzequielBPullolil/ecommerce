@@ -39,3 +39,13 @@ class UserRegisterTestCase(TestCase):
         })
 
         self.assertEqual(response.status_code, 200)
+
+    def test_valid_post_request_persist_user_in_db(self):
+        '''
+            A valid post request to register_user route persist user in
+            db
+        '''
+        response = self.client.post(self.url, self.data)
+        self.assertEqual(response.status_code, 200)
+
+        Users.objects.get(email=self.data['email'])
