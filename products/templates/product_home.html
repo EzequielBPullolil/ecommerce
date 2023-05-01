@@ -1,7 +1,13 @@
-{% for product in product_list  %}
-  <div class="product--container">
-    <div class="product--card">
-        <h1>{{ product.name }} </h1>
-    </div>
+{% extends "product_base.html" %}
+
+{% block content %}
+<div class="product--container">
+  {% for product in product_list %}
+  <div class="product--card">
+    <a href="{% url 'product_detail' product.id %}">
+      <h1>{{ product.name }} </h1>
+    </a>
   </div>
-{% endfor %}
+  {% endfor %}
+</div>
+{% endblock %}
