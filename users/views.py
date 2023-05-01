@@ -5,6 +5,11 @@ from users.forms import UserForm
 from users.models import Users
 from users.services import persist_user
 # Create your views here.
+from django.contrib.auth.views import LoginView
+
+
+class UserLoginView(LoginView):
+    template_name = 'user_login.html'
 
 
 class UserRegisterView(CreateView):
