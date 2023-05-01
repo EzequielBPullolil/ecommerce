@@ -1,4 +1,7 @@
+{% extends "product_base.html" %}
+{% block content %}
 <form method="POST">
   {% csrf_token %}
   <input type="submit" value="Delete">
 </form>
+{% endblock %}
