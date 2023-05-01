@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 from users.forms import UserForm
 from users.models import Users
@@ -14,7 +15,7 @@ class UserRegisterView(CreateView):
     def post(self, request, *args, **kwargs):
         '''
             Validate obtained form fields and 
-            persist user
+            persist user and redirect to user_login
             * If they email are already registered
               render user_error.html template
         '''
@@ -25,5 +26,7 @@ class UserRegisterView(CreateView):
                 email=request.POST['email'],
                 password=request.POST['password']
             )
-
+            return redirect(
+                reverse_lazy('user_login')
+            )
         return render(request, 'user_error.html')
