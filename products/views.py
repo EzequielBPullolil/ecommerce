@@ -3,6 +3,7 @@ from django.forms.models import BaseModelForm
 from django.shortcuts import redirect, render
 from products.models import Products
 from django.http import Http404, HttpResponse
+from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.detail import DetailView
 from .forms import ProductForm
@@ -84,3 +85,9 @@ class ProductDeleteView(DeleteView):
             exist, if not render template_name_not_found
         '''
         return super().get(self, request, *args, **kwargs)
+
+
+class ProductHomeView(ListView):
+    model = Products
+    template_name = 'product_home.html'
+    context_object_name = 'product_list'
