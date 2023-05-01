@@ -1,0 +1,16 @@
+.product--container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  justify-items: center;
+}
+
+.product--fullscreen {
+  display: flex;
+  justify-content:center;
+}
+
+form {
+  display: flex;
+  justify-content: center;
+}
