@@ -1,1 +1,10 @@
-<h1> {{ product.name}} </h1>
+{% extends "product_base.html" %}
+{% block content %}
+<div class='product--fullscreen'>
+  <h1> {{ product.name}} </h1>
+  <div class="product--actions">
+    <a href="{% url 'product_update' product.id %}"> update </a>
+    <a href="{% url 'product_delete' product.id %}"> delete </a>
+  </div>
+</div>
+{% endblock %}
