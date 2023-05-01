@@ -18,4 +18,4 @@ class UserRegisterTestCase(TestCase):
     def test_request_user_register_with_post_return_user_register_template(self):
         response = self.client.get(self.url)
 
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 200)
