@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views.generic.edit import CreateView
 from users.forms import UserForm
 from users.models import Users
+from users.services import persist_user
 # Create your views here.
 
 
