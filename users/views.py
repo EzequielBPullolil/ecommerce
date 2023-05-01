@@ -1,7 +1,8 @@
-from django.shortcuts import render
-
+from django.views.generic.edit import CreateView
+from users.forms import UserForm
 # Create your views here.
 
 
-def create(request):
-    pass
+class UserRegisterView(CreateView):
+    form_class = UserForm
+    template_name = 'user_register.html'
