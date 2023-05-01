@@ -30,3 +30,8 @@ class UserRegisterTestCase(TestCase):
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
+
+    def test_post_request_to_user_register_with_alredy_registerd_user_render_user_error_template(self):
+        response = self.client.post(self.url)
+
+        self.assertEqual(response.status_code, 200)
