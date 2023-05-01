@@ -1,7 +1,9 @@
+
 from django.test import TestCase
 from django.urls import reverse
-
 from users.models import Users
+
+from django.contrib.auth.hashers import check_password
 
 
 class UserRegisterTestCase(TestCase):
@@ -40,12 +42,26 @@ class UserRegisterTestCase(TestCase):
 
         self.assertEqual(response.status_code, 200)
 
-    def test_valid_post_request_persist_user_in_db(self):
+    def test_valid_post_request_redirect_to_user_login_route(self):
         '''
-            A valid post request to register_user route persist user in
-            db
+            A valid register_user post request redirect to the user_login route 
         '''
         response = self.client.post(self.url, self.data)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)
 
-        Users.objects.get(email=self.data['email'])
+        self.assertRedirects(
+            response, reverse('user_login')
+        )
+
+    def test_user_is_persisted(self):
+        '''
+            After valid_post verify if user is persisted in db and
+            have the password hashed
+        '''
+        persisted_user = Users.objects.get(email=self.data['email'])
+
+        self.assertNotEqual(persisted_user.password, self.data['password'])
+
+        self.assertTrue(
+            check_password(self.data['password'], persisted_user.password)
+        )
