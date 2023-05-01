@@ -58,6 +58,9 @@ class UserRegisterTestCase(TestCase):
             After valid_post verify if user is persisted in db and
             have the password hashed
         '''
+        response = self.client.post(self.url, self.data)
+        self.assertEqual(response.status_code, 302)
+
         persisted_user = Users.objects.get(email=self.data['email'])
 
         self.assertNotEqual(persisted_user.password, self.data['password'])
